@@ -1,0 +1,11 @@
+{
+  "name": "@next-go-template/api",
+  "private": true,
+  "scripts": {
+    "dev": "go run ./cmd/server",
+    "build": "go build -o build/server ./cmd/server",
+    "start": "./build/server",
+    "lint": "go fmt ./... && go vet ./...",
+    "gen": "go run github.com/oapi-codegen/oapi-codegen/v2/cmd/oapi-codegen --config oapi-codegen.yaml ../../packages/schema/openapi.yaml"
+  }
+}

@@ -1,0 +1,111 @@
+openapi: 3.0.3
+info: { title: TODO API, version: 1.0.0 }
+servers: [{ url: https://api.example.com }]
+paths:
+  /todos:
+    get:
+      operationId: listTodos
+      parameters:
+        - in: query
+          name: status
+          schema: { type: string, enum: [open, done, archived] }
+        - in: query
+          name: limit
+          schema: { type: integer, default: 20, minimum: 1, maximum: 100 }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [items, nextCursor]
+                properties:
+                  items:
+                    type: array
+                    items: { $ref: "#/components/schemas/Todo" }
+                  nextCursor: { type: string, nullable: true }
+    post:
+      operationId: createTodo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/TodoCreateInput" }
+      responses:
+        "201":
+          {
+            description: Created,
+            content:
+              {
+                application/json:
+                  { schema: { $ref: "#/components/schemas/Todo" } },
+              },
+          }
+  /todos/{id}:
+    get:
+      operationId: getTodo
+      parameters:
+        [{ in: path, name: id, required: true, schema: { type: string } }]
+      responses:
+        "200":
+          {
+            description: OK,
+            content:
+              {
+                application/json:
+                  { schema: { $ref: "#/components/schemas/Todo" } },
+              },
+          }
+        "404": { description: Not Found }
+    patch:
+      operationId: updateTodo
+      parameters:
+        [{ in: path, name: id, required: true, schema: { type: string } }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/TodoUpdateInput" }
+      responses:
+        "200":
+          {
+            description: OK,
+            content:
+              {
+                application/json:
+                  { schema: { $ref: "#/components/schemas/Todo" } },
+              },
+          }
+    delete:
+      operationId: deleteTodo
+      parameters:
+        [{ in: path, name: id, required: true, schema: { type: string } }]
+      responses: { "204": { description: No Content } }
+components:
+  schemas:
+    Todo:
+      type: object
+      required: [id, title, status, createdAt, updatedAt]
+      properties:
+        id: { type: string }
+        title: { type: string, minLength: 1, maxLength: 200 }
+        description: { type: string, nullable: true, maxLength: 2000 }
+        status: { type: string, enum: [open, done, archived], default: open }
+        dueDate: { type: string, format: date-time, nullable: true }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+    TodoCreateInput:
+      type: object
+      required: [title]
+      properties:
+        title: { type: string, minLength: 1, maxLength: 200 }
+        description: { type: string, nullable: true, maxLength: 2000 }
+        dueDate: { type: string, format: date-time, nullable: true }
+    TodoUpdateInput:
+      type: object
+      properties:
+        title: { type: string, minLength: 1, maxLength: 200 }
+        description: { type: string, nullable: true, maxLength: 2000 }
+        status: { type: string, enum: [open, done, archived] }
+        dueDate: { type: string, format: date-time, nullable: true }

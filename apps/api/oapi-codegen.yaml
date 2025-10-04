@@ -1,0 +1,6 @@
+package: gen
+output: ./gen/openapi.gen.go
+generate:
+  models: true
+  strict-server: true
+  std-http-server: true
