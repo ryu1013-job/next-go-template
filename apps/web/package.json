@@ -10,13 +10,17 @@
     "gen:client": "orval --config orval.config.ts"
   },
   "dependencies": {
-    "@orpc/client": "^1.9.2",
-    "@orpc/contract": "^1.9.2",
-    "@orpc/openapi-client": "^1.9.2",
+    "@heroui/button": "^2.2.27",
+    "@heroui/react": "^2.8.5",
+    "@heroui/system": "^2.4.23",
+    "@heroui/theme": "^2.4.23",
+    "@heroui/toast": "^2.0.17",
     "@types/js-yaml": "^4.0.9",
+    "framer-motion": "^12.23.22",
     "next": "15.5.4",
     "react": "19.1.0",
-    "react-dom": "19.1.0"
+    "react-dom": "19.1.0",
+    "valibot": "^1.1.0"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^5.4.1",
